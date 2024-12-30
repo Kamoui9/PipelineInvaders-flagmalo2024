@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y lsb-release gnupg software-properties-c
 
 COPY terraform-gitlab /terraform-gitlab
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
+RUN dos2unix /entrypoint.sh
 COPY repositories /repositories
 COPY repositories.sh /repositories.sh
 RUN chmod +x /repositories.sh

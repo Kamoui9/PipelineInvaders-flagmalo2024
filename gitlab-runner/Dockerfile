@@ -4,4 +4,4 @@ RUN apk add --no-cache gitlab-runner curl bash
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/bin/bash entrypoint.sh"]

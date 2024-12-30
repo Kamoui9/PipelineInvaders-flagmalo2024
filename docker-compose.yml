@@ -2,14 +2,13 @@ services:
   gitlab:
     build: gitlab
     container_name: pipelineinvaders
-    restart: always
+    # restart: always
     hostname: 'pipelineinvaders'
     environment:
+        # external_url 'https://pipelineinvaders.flagmalo.fr'
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://pipelineinvaders.flagmalo.fr'
-
-        nginx['listen_port'] = 80
-        nginx['listen_https'] = false
+        external_url 'http://gitlab'
+        registry_external_url 'https://gitlab:5050'
 
         gitlab_rails['initial_shared_runners_registration_token'] = "GR1348hansd87fyzDiqyZeuHuxe"
         gitlab_rails['initial_root_password'] = "Patate::12000)("
@@ -25,7 +24,9 @@ services:
     networks:
       - gitlab-runner-internal
     ports:
-      - '10.0.1.103:80:80'
+        - '5050:5050'
+        - '80:80'
+    #   - '10.0.1.103:80:80'
 
   gitlab-runner:
     build: gitlab-runner
