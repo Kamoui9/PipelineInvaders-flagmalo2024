@@ -1,0 +1,22 @@
+#!/bin/sh
+
+ROOT_TOKEN="60b6c7ba41475b2ebdded2c0d3b079f0"
+
+cd repositories
+
+cd gitOverHere
+git config user.email "root@example.com"
+git config user.name "root"
+git push http://root:$ROOT_TOKEN@gitlab/gitOverHere_group/gitOverHere.git main
+cd ..
+
+cd pipelineInvaders-src
+git config user.email "root@example.com"
+git config user.name "root"
+
+{% for i in range(1, NUM_USER + 1) %}
+git push http://root:$ROOT_TOKEN@gitlab/pipelineInvaders_group{{ i }}/pipelineInvaders{{ i }}.git main
+{% endfor %}
+
+cd ..
+cd ..

@@ -1,0 +1,27 @@
+### gitOverHere.tf ###
+## global
+resource "gitlab_project" "gitOverHere_project" {
+  name                   = "gitOverHere"
+  description            = "Il est dit que même les champions laissent parfois des traces de leurs erreurs. Seuls ceux qui savent manipuler le temps et explorer les ombres peuvent espérer retrouver ce qui a été perdu."
+  namespace_id           = gitlab_group.gitOverHere_group.id
+  auto_devops_enabled    = false
+  visibility_level       = "public"
+}
+
+## group
+resource "gitlab_group" "gitOverHere_group" {
+  name             = "gitOverHere_group"
+  path             = "gitOverHere_group"
+  description      = "gitOverHere_group"
+  visibility_level = "public"
+}
+
+## memberships
+
+{% for i in range(1, NUM_USER + 1) %}
+resource "gitlab_project_membership" "gitOverHere_membership{{ i }}" {
+  project   = gitlab_project.gitOverHere_project.id
+  user_id      = gitlab_user.equipe{{ i }}.id
+  access_level = "guest"
+}
+{% endfor %}

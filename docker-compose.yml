@@ -1,0 +1,39 @@
+services:
+  gitlab:
+    build: gitlab
+    container_name: pipelineinvaders
+    restart: always
+    hostname: 'pipelineinvaders'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://pipelineinvaders.flagmalo.fr'
+
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+
+        gitlab_rails['initial_shared_runners_registration_token'] = "GR1348hansd87fyzDiqyZeuHuxe"
+        gitlab_rails['initial_root_password'] = "Patate::12000)("
+
+        letsencrypt['enable'] = false
+        gitlab_rails['smtp_enable'] = false
+        gitlab_kas['enable'] = false
+        sentinel['enable'] = false
+        logrotate['enable'] = false
+        pages_nginx['enable'] = false
+        prometheus_monitoring['enable'] = false
+        alertmanager['enable'] = false
+    networks:
+      - gitlab-runner-internal
+    ports:
+      - '10.0.1.103:80:80'
+
+  gitlab-runner:
+    build: gitlab-runner
+    privileged: true
+    restart: always
+    shm_size: '256m'
+    networks:
+      - gitlab-runner-internal
+
+networks:
+  gitlab-runner-internal:

@@ -1,0 +1,15 @@
+### users.tf ###
+
+{% for i in range(1, NUM_USER + 1) %}
+resource "gitlab_user" "equipe{{ i }}" {
+  name             = "equipe{{ i }}"
+  username         = "equipe{{ i }}"
+  password         = "{{ passwords[i-1] }}"
+  email            = "equipe{{ i }}@flagmalo.fr"
+  is_admin         = false
+  projects_limit   = 0
+  can_create_group = false
+  is_external      = false
+  reset_password   = false
+}
+{% endfor %}

@@ -1,0 +1,34 @@
+### pipelineInvaders.tf ###
+## global
+resource "gitlab_project" "pipelineInvaders_project{{ equipe }}" {
+  name                   = "pipelineInvaders{{ equipe }}"
+  description            = "h t t p s : / / t . l y / u A T C X"
+  namespace_id           = gitlab_group.pipelineInvaders_group{{ equipe }}.id
+  auto_devops_enabled    = false
+  visibility_level = "public"
+}
+
+## group
+resource "gitlab_group" "pipelineInvaders_group{{ equipe }}" {
+  name        = "pipelineInvaders_group{{ equipe }}"
+  path        = "pipelineInvaders_group{{ equipe }}"
+  description = "ekip {{ equipe }}"
+  visibility_level = "public"
+}
+
+## vars & secrets
+resource "gitlab_project_variable" "pipelineInvaders_secret{{ equipe }}" {
+  project           = gitlab_project.pipelineInvaders_project{{ equipe }}.id
+  key               = "FLAG"
+  value             = "maskedIsNotProtected"
+  protected         = false
+  masked            = true
+  environment_scope = "*"
+}
+
+## memberships
+resource "gitlab_group_membership" "equipe{{ equipe }}_membership" {
+  group_id     = gitlab_group.pipelineInvaders_group{{ equipe }}.id
+  user_id      = gitlab_user.equipe{{ equipe }}.id
+  access_level = "developer"
+}
